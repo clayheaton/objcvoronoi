@@ -10,25 +10,20 @@
 #import "Beachsection.h"
 #import "CircleEvent.h"
 
-NSString * const BeachsectionClassName                    = @"Beachsection";
-NSString * const CircleEventClassName                     = @"CircleEvent";
-
 @implementation RBTree
-@synthesize root, nodeClass;
+@synthesize root;
 
 - (id)init
 {
     self = [super init];
     if (self) {
         [self setRoot:nil];
-        nodeClass = nil;
     }
     return self;
 }
 
 - (void)rbInsertSuccessorForNode:(id)node withSuccessor:(id)successor
 {
-    NSAssert(nodeClass != nil, @"nodeClass must be set for RBTree to work");
      
     id parent;
     if (node) {

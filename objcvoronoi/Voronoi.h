@@ -8,22 +8,40 @@
 
 #import <Foundation/Foundation.h>
 
+@class RBTree;
+@class CircleEvent;
+@class Beachsection;
+@class Site;
+@class VoronoiResult;
+
 @interface Voronoi : NSObject {
     NSMutableArray *edges;
     NSMutableArray *cells;
     NSMutableArray *beachsectionJunkyard;
     NSMutableArray *circleEventJunkyard;
     
+    RBTree *beachline;
+    RBTree *circleEvents;
+    
+    CircleEvent *firstCircleEvent;
+    
     NSMutableArray *sites;
     NSRect boundingBox;
     
 }
 
-@property (retain, readwrite) NSMutableArray *sites;
+@property (retain, readwrite) CircleEvent *firstCircleEvent;
+
 @property (assign, readwrite) NSRect boundingBox;
 
-- (void)computeWithSites:(NSMutableArray *)siteList andBoundingBox:(NSRect)bbox;
+- (VoronoiResult *)computeWithSites:(NSMutableArray *)siteList andBoundingBox:(NSRect)bbox;
 - (void)reset;
+
+- (void)addBeachsection:(Site *)site;
+- (void)removeBeachsection:(Beachsection *)bs;
+
+- (void)clipEdges:(NSRect)bbox;
+- (void)closeCells:(NSRect)bbox;
 
 #pragma mark Math methods
 // Basic math methods handled by the class

@@ -8,16 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const BeachsectionClassName;
-extern NSString * const CircleEventClassName;
-
 @interface RBTree : NSObject {
     id root;
-    NSString *nodeClass;
 }
 
 @property (retain, readwrite) id root;
-@property (copy, readwrite) NSString *nodeClass;
 
 - (void)rbInsertSuccessorForNode:(id)node withSuccessor:(id)successor;
 - (void)rbRemoveNode:(id)node;
