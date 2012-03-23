@@ -13,6 +13,10 @@
 		6F7BC93E151BC2750013CDD7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7BC93C151BC2750013CDD7 /* Credits.rtf */; };
 		6F7BC941151BC2750013CDD7 /* VoronoiAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC940151BC2750013CDD7 /* VoronoiAppDelegate.m */; };
 		6F7BC944151BC2760013CDD7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F7BC942151BC2750013CDD7 /* MainMenu.xib */; };
+		6F7BC951151BF67A0013CDD7 /* Voronoi.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC950151BF67A0013CDD7 /* Voronoi.m */; };
+		6F7BC960151C1AB90013CDD7 /* RBTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC95F151C1AB90013CDD7 /* RBTree.m */; };
+		6F7BC967151C1F2C0013CDD7 /* Beachsection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC966151C1F2C0013CDD7 /* Beachsection.m */; };
+		6F7BC96A151C1F3A0013CDD7 /* CircleEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC969151C1F3A0013CDD7 /* CircleEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,14 +25,22 @@
 		6F7BC930151BC2750013CDD7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6F7BC931151BC2750013CDD7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6F7BC932151BC2750013CDD7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6F7BC935151BC2750013CDD7 /* objcvoronoi-Info.plist */ = {isa = PBXFileReference; path = "objcvoronoi-Info.plist"; sourceTree = "<group>"; };
+		6F7BC935151BC2750013CDD7 /* objcvoronoi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "objcvoronoi-Info.plist"; sourceTree = "<group>"; };
 		6F7BC937151BC2750013CDD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6F7BC939151BC2750013CDD7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6F7BC93B151BC2750013CDD7 /* objcvoronoi-Prefix.pch */ = {isa = PBXFileReference; path = "objcvoronoi-Prefix.pch"; sourceTree = "<group>"; };
+		6F7BC93B151BC2750013CDD7 /* objcvoronoi-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "objcvoronoi-Prefix.pch"; sourceTree = "<group>"; };
 		6F7BC93D151BC2750013CDD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		6F7BC93F151BC2750013CDD7 /* VoronoiAppDelegate.h */ = {isa = PBXFileReference; path = VoronoiAppDelegate.h; sourceTree = "<group>"; };
+		6F7BC93F151BC2750013CDD7 /* VoronoiAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VoronoiAppDelegate.h; sourceTree = "<group>"; };
 		6F7BC940151BC2750013CDD7 /* VoronoiAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoronoiAppDelegate.m; sourceTree = "<group>"; };
 		6F7BC943151BC2760013CDD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6F7BC94F151BF67A0013CDD7 /* Voronoi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Voronoi.h; sourceTree = "<group>"; };
+		6F7BC950151BF67A0013CDD7 /* Voronoi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Voronoi.m; sourceTree = "<group>"; };
+		6F7BC95E151C1AB90013CDD7 /* RBTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBTree.h; sourceTree = "<group>"; };
+		6F7BC95F151C1AB90013CDD7 /* RBTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBTree.m; sourceTree = "<group>"; };
+		6F7BC965151C1F2C0013CDD7 /* Beachsection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beachsection.h; sourceTree = "<group>"; };
+		6F7BC966151C1F2C0013CDD7 /* Beachsection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Beachsection.m; sourceTree = "<group>"; };
+		6F7BC968151C1F3A0013CDD7 /* CircleEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleEvent.h; sourceTree = "<group>"; };
+		6F7BC969151C1F3A0013CDD7 /* CircleEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +97,14 @@
 				6F7BC93F151BC2750013CDD7 /* VoronoiAppDelegate.h */,
 				6F7BC940151BC2750013CDD7 /* VoronoiAppDelegate.m */,
 				6F7BC942151BC2750013CDD7 /* MainMenu.xib */,
+				6F7BC94F151BF67A0013CDD7 /* Voronoi.h */,
+				6F7BC950151BF67A0013CDD7 /* Voronoi.m */,
+				6F7BC95E151C1AB90013CDD7 /* RBTree.h */,
+				6F7BC95F151C1AB90013CDD7 /* RBTree.m */,
+				6F7BC965151C1F2C0013CDD7 /* Beachsection.h */,
+				6F7BC966151C1F2C0013CDD7 /* Beachsection.m */,
+				6F7BC968151C1F3A0013CDD7 /* CircleEvent.h */,
+				6F7BC969151C1F3A0013CDD7 /* CircleEvent.m */,
 				6F7BC934151BC2750013CDD7 /* Supporting Files */,
 			);
 			path = objcvoronoi;
@@ -168,6 +188,10 @@
 			files = (
 				6F7BC93A151BC2750013CDD7 /* main.m in Sources */,
 				6F7BC941151BC2750013CDD7 /* VoronoiAppDelegate.m in Sources */,
+				6F7BC951151BF67A0013CDD7 /* Voronoi.m in Sources */,
+				6F7BC960151C1AB90013CDD7 /* RBTree.m in Sources */,
+				6F7BC967151C1F2C0013CDD7 /* Beachsection.m in Sources */,
+				6F7BC96A151C1F3A0013CDD7 /* CircleEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
