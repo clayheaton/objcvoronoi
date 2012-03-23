@@ -16,6 +16,7 @@ extern NSString * const CircleEventClassName;
     NSString *nodeClass;
 }
 
+@property (retain, readwrite) id root;
 @property (copy, readwrite) NSString *nodeClass;
 
 - (void)rbInsertSuccessorForNode:(id)node withSuccessor:(id)successor;
