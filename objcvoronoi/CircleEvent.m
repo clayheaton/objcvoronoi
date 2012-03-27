@@ -8,9 +8,10 @@
 
 #import "CircleEvent.h"
 #import "Beachsection.h"
+#import "Site.h"
 
 @implementation CircleEvent
-@synthesize rbNext, rbPrevious, rbParent, rbRight, rbLeft, rbRed, arc;
+@synthesize rbNext, rbPrevious, rbParent, rbRight, rbLeft, rbRed, arc, site, ycenter;
 
 
 

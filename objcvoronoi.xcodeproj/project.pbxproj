@@ -20,6 +20,9 @@
 		6F7BC96D151CD4130013CDD7 /* Site.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC96C151CD4130013CDD7 /* Site.m */; };
 		6F7BC970151CE2790013CDD7 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC96F151CE2790013CDD7 /* Cell.m */; };
 		6F7BC973151CE87C0013CDD7 /* VoronoiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7BC972151CE87C0013CDD7 /* VoronoiResult.m */; };
+		6FD9DCA01520F211006E3B85 /* Edge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DC9F1520F211006E3B85 /* Edge.m */; };
+		6FD9DCA71520F72C006E3B85 /* Vertex.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DCA61520F72C006E3B85 /* Vertex.m */; };
+		6FD9DCAA15221268006E3B85 /* Halfedge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DCA915221268006E3B85 /* Halfedge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +53,12 @@
 		6F7BC96F151CE2790013CDD7 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		6F7BC971151CE87C0013CDD7 /* VoronoiResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoronoiResult.h; sourceTree = "<group>"; };
 		6F7BC972151CE87C0013CDD7 /* VoronoiResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoronoiResult.m; sourceTree = "<group>"; };
+		6FD9DC9E1520F211006E3B85 /* Edge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Edge.h; sourceTree = "<group>"; };
+		6FD9DC9F1520F211006E3B85 /* Edge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Edge.m; sourceTree = "<group>"; };
+		6FD9DCA51520F72C006E3B85 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		6FD9DCA61520F72C006E3B85 /* Vertex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vertex.m; sourceTree = "<group>"; };
+		6FD9DCA815221268006E3B85 /* Halfedge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Halfedge.h; sourceTree = "<group>"; };
+		6FD9DCA915221268006E3B85 /* Halfedge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Halfedge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +129,12 @@
 				6F7BC96C151CD4130013CDD7 /* Site.m */,
 				6F7BC96E151CE2790013CDD7 /* Cell.h */,
 				6F7BC96F151CE2790013CDD7 /* Cell.m */,
+				6FD9DC9E1520F211006E3B85 /* Edge.h */,
+				6FD9DC9F1520F211006E3B85 /* Edge.m */,
+				6FD9DCA815221268006E3B85 /* Halfedge.h */,
+				6FD9DCA915221268006E3B85 /* Halfedge.m */,
+				6FD9DCA51520F72C006E3B85 /* Vertex.h */,
+				6FD9DCA61520F72C006E3B85 /* Vertex.m */,
 				6F7BC934151BC2750013CDD7 /* Supporting Files */,
 			);
 			path = objcvoronoi;
@@ -210,6 +225,9 @@
 				6F7BC96D151CD4130013CDD7 /* Site.m in Sources */,
 				6F7BC970151CE2790013CDD7 /* Cell.m in Sources */,
 				6F7BC973151CE87C0013CDD7 /* VoronoiResult.m in Sources */,
+				6FD9DCA01520F211006E3B85 /* Edge.m in Sources */,
+				6FD9DCA71520F72C006E3B85 /* Vertex.m in Sources */,
+				6FD9DCAA15221268006E3B85 /* Halfedge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +349,7 @@
 				6F7BC949151BC2760013CDD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
