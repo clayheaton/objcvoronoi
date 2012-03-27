@@ -47,4 +47,9 @@
     [halfedges addObject:he];
 }
 
+- (NSMutableArray *)halfedges
+{
+    return halfedges;
+}
+
 @end

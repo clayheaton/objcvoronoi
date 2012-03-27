@@ -21,5 +21,6 @@
 - (id)initWithSite:(Site *)s;
 - (int)prepare;
 - (void)addHalfedgeToArray:(Halfedge *)he;
+- (NSMutableArray *)halfedges;
 
 @end

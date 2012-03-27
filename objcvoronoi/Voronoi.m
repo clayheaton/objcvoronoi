@@ -532,11 +532,6 @@
     [self setEdgeStartPointWithEdge:tempEdge lSite:tempRSite rSite:tempLSite andVertex:tempVertex];
 }
 
-- (void)closeCells:(NSRect)bbox
-{
-    
-}
-
 - (void)attachCircleEvent:(Beachsection *)arc
 {
     Beachsection *lArc = [arc rbPrevious];
@@ -931,9 +926,121 @@
     return YES;
 }
 
+// Clip/cut edges at the bounding box
 - (void)clipEdges:(NSRect)bbox
 {
+    int iEdge = (int)[edges count];
+    Edge *edge;
     
+    // iterate backward so we can splice safely
+    while (iEdge--) {
+        edge = [edges objectAtIndex:iEdge];
+        // edge is removed if:
+        //  it is wholly outside the bounding box
+        //  it is actually a point rather than a line
+        if (![self connectEdge:edge withBoundingBox:bbox] 
+            || ![self clipEdge:edge withBoundingBox:bbox]
+            || (fabs([[edge va] x] - [[edge vb] x]) < 1e-9 && fabs([[edge va] y] - [[edge vb] y]) < 1e-9)) {
+            [edge setVb:nil];
+            [edge setVa:nil];
+            [edges removeObjectAtIndex:iEdge];                                          // Possible problem area: implementation of js splice();
+        }
+    }
+}
+
+
+// Close the cells.
+// The cells are bound by the supplied bounding box.
+// Each cell refers to its associated site, and a list of halfedges ordered counterclockwise
+- (void)closeCells:(NSRect)bbox
+{
+    float xl = bbox.origin.x;
+    float xr = bbox.origin.x + bbox.size.width;
+    float yt = bbox.origin.y;
+    float yb = bbox.origin.y + bbox.size.height;
+    
+    int iCell = (int)[cells count];
+    Cell *cell;
+    
+    /*
+     iLeft, iRight
+     halfedges, nHalfedges
+     edge
+     startpoint, endpoint
+     va, vb
+     */
+    
+    NSMutableArray *halfedges;
+    int iLeft, iRight, nHalfedges;
+    Edge *edge;
+    Vertex *startpoint;
+    Vertex *endpoint;
+    Vertex *va;
+    Vertex *vb;
+    
+    while (iCell--) {
+        cell = [cells objectAtIndex:iCell];
+        
+        // Trim non full-defined halfedges and sort them counterclockwise
+        if (![cell prepare]) {
+            continue;
+        }
+        
+        // close open cells
+        // step 1: find first 'unclosed' point, if any.
+        // An 'unclosed' point will be the end point of a halfedge which
+        // does not match the start point of the following halfedge
+        halfedges = [cell halfedges];
+        nHalfedges = (int)[halfedges count];
+        // Special case: only one site, in which case, the viewport is the cell
+        // ...
+        // all other cases
+        
+        iLeft = 0;
+        while (iLeft < nHalfedges) {
+            iRight     = (iLeft + 1) % nHalfedges;
+            endpoint   = [[halfedges objectAtIndex:iLeft] getEndpoint];
+            startpoint = [[halfedges objectAtIndex:iRight] getStartpoint];
+            
+            // if end point is not equal to start point, we need to add the missing halfedge(s) to close the cell
+            if (fabs([endpoint x] - [startpoint x])>=1e-9 || fabs([endpoint y] - [startpoint y]) >= 1e-9) {
+                // if we reach this point, cell needs to be closed by walking counterclockwise 
+                // along the bounding box until it connects to the next halfedge in the list
+                va = endpoint;
+                    
+                if ([Voronoi equalWithEpsilonA:[endpoint x] andB:xl] && [Voronoi lessThanWithEpsilonA:[endpoint y] andB:yb]) {
+                    
+                    // walk downward along left side
+                    float tempY = [Voronoi equalWithEpsilonA:[startpoint x] andB:xl] ? [startpoint y] : yb;
+                    vb = [[Vertex alloc] initWithCoord:NSMakePoint(xl, tempY)];
+                    
+                } else if ([Voronoi equalWithEpsilonA:[endpoint y] andB:yb] && [Voronoi lessThanWithEpsilonA:[endpoint x] andB:xr]) {
+                    
+                    // walk rightward along the bottom side
+                    float tempX = [Voronoi equalWithEpsilonA:[startpoint y] andB:yb] ? [startpoint x] : xr;
+                    vb = [[Vertex alloc] initWithCoord:NSMakePoint(tempX, yb)];
+                    
+                } else if ([Voronoi equalWithEpsilonA:[endpoint x] andB:xr] && [Voronoi greaterThanWithEpsilonA:[endpoint y] andB:yt]) {
+                    
+                    // walk upward along the right side
+                    float tempY = [Voronoi equalWithEpsilonA:[startpoint x] andB:xr] ? [startpoint y] : yt;
+                    vb = [[Vertex alloc] initWithCoord:NSMakePoint(xr, tempY)];
+                    
+                } else if ([Voronoi equalWithEpsilonA:[endpoint y] andB:yt] && [Voronoi greaterThanWithEpsilonA:[endpoint x] andB:xl]) {
+                    
+                    // walk leftward along top side
+                    float tempX = [Voronoi equalWithEpsilonA:[startpoint y] andB:yt] ? [startpoint x] : xl;
+                    vb = [[Vertex alloc] initWithCoord:NSMakePoint(tempX, yt)];
+                    
+                }
+                edge = [self createBorderEdgeWithSite:[cell site] andVertex:va andVertex:vb];
+                Halfedge *he = [[Halfedge alloc] initWithEdge:edge lSite:[cell site] andRSite:nil];
+                [halfedges insertObject:he atIndex:(iLeft + 1)];
+                nHalfedges = (int)[halfedges count];
+            }
+            iLeft ++;
+        }
+    }
 }
 
 #pragma mark Math
