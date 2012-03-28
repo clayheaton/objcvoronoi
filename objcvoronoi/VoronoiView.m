@@ -27,6 +27,11 @@
     return self;
 }
 
+- (BOOL)isFlipped
+{
+    return YES;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     [NSGraphicsContext saveGraphicsState];

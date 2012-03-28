@@ -25,24 +25,28 @@
     
     NSMutableArray *sites = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < 75; i++) {
+    /*
+    for (int i = 0; i < 5; i++) {
         float x = arc4random() % 95 + 1;
         float y = arc4random() % 95 + 1;
         NSValue *v = [NSValue valueWithPoint:NSMakePoint(x, y)];
         NSLog(@"Point: (%i, %i)", (int)x, (int)y);
         [sites addObject:v];
-    }
+    } */
    
-    /* 
-    NSValue *v = [NSValue valueWithPoint:NSMakePoint(12, 47)];
-    [sites addObject:v];
     
-    NSValue *v2 = [NSValue valueWithPoint:NSMakePoint(72, 55)];
-    [sites addObject:v2];
+    NSValue *v5 = [NSValue valueWithPoint:NSMakePoint(64, 14)];
+    [sites addObject:v5];
     
-    NSValue *v3 = [NSValue valueWithPoint:NSMakePoint(44, 82)];
-    [sites addObject:v3];
-     */
+    NSValue *v10 = [NSValue valueWithPoint:NSMakePoint(80, 83)];
+    [sites addObject:v10];
+    
+    NSValue *v12 = [NSValue valueWithPoint:NSMakePoint(59, 18)];
+    [sites addObject:v12];
+    
+    NSValue *v13 = [NSValue valueWithPoint:NSMakePoint(29, 33)];
+    [sites addObject:v13];
+    
     
     VoronoiResult *result = [voronoi computeWithSites:sites andBoundingBox:NSMakeRect(0, 0, 100, 100)];
     

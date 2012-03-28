@@ -48,7 +48,7 @@
     NSString *endPoint   = [[self getEndpoint] description];
     
     
-    return [NSString stringWithFormat:@"Halfedge | Start Point: %@, End Point: %@",startPoint, endPoint];
+    return [NSString stringWithFormat:@"Halfedge - Angle: %f,  Start Point: %@,  End Point: %@",angle, startPoint, endPoint];
 }
 
 - (Vertex *)getStartpoint
@@ -70,9 +70,9 @@
 - (NSComparisonResult)compare:(Halfedge *)he
 {
     if ([self angle] < [he angle]) {
-        return NSOrderedAscending;
-    } else if ([self angle] > [he angle]) {
         return NSOrderedDescending;
+    } else if ([self angle] > [he angle]) {
+        return NSOrderedAscending;
     } else {
         return NSOrderedSame;
     }

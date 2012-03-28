@@ -52,7 +52,7 @@
     
     NSMutableArray *siteEvents = [[NSMutableArray alloc] initWithArray:sites];
     [Site sortSites:siteEvents];
-    NSLog(@"Sorted siteEvents: %@", siteEvents);
+    //NSLog(@"Sorted siteEvents: %@", siteEvents);
     Site *site = [siteEvents lastObject];
     [siteEvents removeLastObject];
     
@@ -60,7 +60,7 @@
     
     float xsitex = FLT_MIN; // To avoid duplicate sites
     float xsitey = FLT_MIN;
-    NSLog(@"%f", xsitex);
+    //NSLog(@"%f", xsitex);
     CircleEvent *circle;
     
     ///////////////
@@ -82,7 +82,7 @@
             if (site.x != xsitex || site.y != xsitey) {
                 // First, create cell for the new site
                 [cells addObject:[[Cell alloc] initWithSite:site]];
-                NSLog(@"cells: %@", cells);
+                //NSLog(@"cells: %@", cells);
                 [site setVoronoiId:siteid];
                 siteid += 1;
 
@@ -225,7 +225,7 @@
     // Create a new beach section object for the site and add it to RB-tree
     Beachsection *newArc = [self createBeachsection:site];
     [beachline rbInsertSuccessorForNode:lArc withSuccessor:newArc];
-    NSLog(@"beachline: %@", beachline);
+    //NSLog(@"beachline: %@", beachline);
     // Cases:
     
     // [null, null]
@@ -279,7 +279,8 @@
     // New beach section becomes right-most node of the RB-tree
     if (lArc && !rArc) {
         NSLog(@"addBeachSection case 3");
-        [newArc setEdge:[self edgeWithSite:[lArc site] andSite:[newArc site]]];
+        Edge *e2 = [self createEdgeWithSite:[lArc site] andSite:[newArc site] andVertex:nil andVertex:nil];
+        [newArc setEdge:e2];
         return;
     }
     
@@ -336,7 +337,7 @@
                                        andVertex:nil 
                                        andVertex:vertex]];
         
-        NSLog(@"Here 1");
+        //NSLog(@"Here 1");
         
         [rArc setEdge:[self createEdgeWithSite:site
                                        andSite:rSite 
@@ -603,9 +604,9 @@
     
     float ha = ax*ax + ay*ay;
     float hc = cx*cx + cy*cy;
-    float x = (cy*ha - ay*hc)/d;
+    float x = (cy*ha - ay*hc) / d;
     float y = (ax*hc - cx*ha) / d;
-    float ycenter =  + by;
+    float ycenter = y + by;
     
     // Important: ybottom should always be under or at sweep, so no need to waste CPU cycles by checking
     
@@ -703,9 +704,11 @@
 
 - (Edge *)createBorderEdgeWithSite:(Site *)lSite andVertex:(Vertex *)va andVertex:(Vertex *)vb
 {
+    
     Edge *edge = [self edgeWithSite:lSite andSite:nil];
     [edge setVa:va];
     [edge setVb:vb];
+    
     [edges addObject:edge];
     return edge;
 }
@@ -1004,7 +1007,7 @@
     
     while (iCell--) {
         cell = [cells objectAtIndex:iCell];
-        NSLog(@"%@", cell);
+        //NSLog(@"%@", cell);
         // Trim non full-defined halfedges and sort them counterclockwise
         if (![cell prepare]) {
             continue;
@@ -1019,7 +1022,7 @@
         // Special case: only one site, in which case, the viewport is the cell
         // ...
         // all other cases
-        
+        NSLog(@"halfedges: %@", halfedges);
         iLeft = 0;
         while (iLeft < nHalfedges) {
             iRight     = (iLeft + 1) % nHalfedges;
