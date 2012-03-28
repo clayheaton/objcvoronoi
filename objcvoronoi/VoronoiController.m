@@ -18,37 +18,39 @@
 
 - (IBAction)testVoronoi:(id)sender
 {
-    NSLog(@"Testing Voronoi...");
+    //NSLog(@"Testing Voronoi...");
     voronoi = [[Voronoi alloc] init];
     
     // Send in sites as NSPoints that have been converted to NSValue
     
     NSMutableArray *sites = [[NSMutableArray alloc] init];
     
-    /*
-    for (int i = 0; i < 5; i++) {
-        float x = arc4random() % 95 + 1;
-        float y = arc4random() % 95 + 1;
-        NSValue *v = [NSValue valueWithPoint:NSMakePoint(x, y)];
-        NSLog(@"Point: (%i, %i)", (int)x, (int)y);
-        [sites addObject:v];
-    } */
-   
+    float xMax = [voronoiview bounds].size.width;
+    float yMax = [voronoiview bounds].size.height;
     
-    NSValue *v5 = [NSValue valueWithPoint:NSMakePoint(64, 14)];
+    for (int i = 0; i < 1000; i++) {
+        float x = arc4random() % (int)xMax;
+        float y = arc4random() % (int)yMax;
+        NSValue *v = [NSValue valueWithPoint:NSMakePoint(x, y)];
+        //NSLog(@"Point: (%i, %i)", (int)x, (int)y);
+        [sites addObject:v];
+    }
+   
+    /*
+    NSValue *v5 = [NSValue valueWithPoint:NSMakePoint(5, 56)];
     [sites addObject:v5];
     
-    NSValue *v10 = [NSValue valueWithPoint:NSMakePoint(80, 83)];
+    NSValue *v10 = [NSValue valueWithPoint:NSMakePoint(77, 19)];
     [sites addObject:v10];
     
-    NSValue *v12 = [NSValue valueWithPoint:NSMakePoint(59, 18)];
+    NSValue *v12 = [NSValue valueWithPoint:NSMakePoint(95, 55)];
     [sites addObject:v12];
     
-    NSValue *v13 = [NSValue valueWithPoint:NSMakePoint(29, 33)];
+    NSValue *v13 = [NSValue valueWithPoint:NSMakePoint(34, 53)];
     [sites addObject:v13];
+     */
     
-    
-    VoronoiResult *result = [voronoi computeWithSites:sites andBoundingBox:NSMakeRect(0, 0, 100, 100)];
+    VoronoiResult *result = [voronoi computeWithSites:sites andBoundingBox:[voronoiview bounds]];
     
     NSMutableArray *sitesFromCells = [[NSMutableArray alloc] init];
     

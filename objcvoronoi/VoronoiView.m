@@ -21,7 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-        [self setBounds:NSMakeRect(0, 0, 100, 100)];
+        //[self setBounds:NSMakeRect(0, 0, 100, 100)];
     }
     
     return self;
@@ -44,7 +44,7 @@
     
     for (NSValue *v in sites) {
         NSBezierPath *p = [[NSBezierPath alloc] init];
-        [p appendBezierPathWithArcWithCenter:[v pointValue] radius:0.2 startAngle:0 endAngle:360];
+        [p appendBezierPathWithArcWithCenter:[v pointValue] radius:0.8 startAngle:0 endAngle:360];
         [p fill];
         
     }
@@ -55,7 +55,7 @@
             NSPoint p1 = [[[he edge] va] coord];
             NSPoint p2 = [[[he edge] vb] coord];
             NSBezierPath *p = [[NSBezierPath alloc] init];
-            [p setLineWidth:0.2];
+            [p setLineWidth:0.3];
             [p moveToPoint:p1];
             [p lineToPoint:p2];
             [p stroke];

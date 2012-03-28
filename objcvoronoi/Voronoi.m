@@ -176,10 +176,6 @@
     Beachsection *lArc, *rArc;
     float dxl, dxr;
     
-    if (node == nil) {
-        NSLog(@"node is nil");
-    }
-    
     while (node) {
         dxl = [self leftBreakPointWithArc:node andDirectrix:directrix] - x;
         if (dxl > 1e-9) {
@@ -236,7 +232,7 @@
     //  New beachsection becomes root of the RB-tree
     
     if (!lArc && !rArc) {
-        NSLog(@"addBeachSection case 1");
+        //NSLog(@"addBeachSection case 1");
         return;
     }
     
@@ -248,7 +244,7 @@
     //  Two new nodes added to the RB-tree
     
     if (lArc == rArc) {
-        NSLog(@"addBeachSection case 2");
+        //NSLog(@"addBeachSection case 2");
         // Invalidate the circle event of split beach section
         [self detachCircleEvent:lArc];
         
@@ -278,7 +274,7 @@
     //  No collapsing beach section as a result
     // New beach section becomes right-most node of the RB-tree
     if (lArc && !rArc) {
-        NSLog(@"addBeachSection case 3");
+        //NSLog(@"addBeachSection case 3");
         Edge *e2 = [self createEdgeWithSite:[lArc site] andSite:[newArc site] andVertex:nil andVertex:nil];
         [newArc setEdge:e2];
         return;
@@ -299,7 +295,7 @@
     //  The left and right beach section might be collapsing as a result
     //  Only one new node added to the RB-tree
     if (lArc != rArc) {
-        NSLog(@"addBeachSection case 4");
+        //NSLog(@"addBeachSection case 4");
         // invalidate circle events of left and right sites
         [self detachCircleEvent:lArc];
         [self detachCircleEvent:rArc];
@@ -427,7 +423,7 @@
     rArc = [disappearingTransitions objectAtIndex:(nArcs - 1)];
     [rArc setEdge:[self createEdgeWithSite:[lArc site] andSite:[rArc site] andVertex:nil andVertex:vertex]];
     
-    NSLog(@"Removing Beach Section");
+    //NSLog(@"Removing Beach Section");
     
     // Create circle events if any foor beach sections nleft in the beachline
     // adjacent to collapsed sections
@@ -681,7 +677,7 @@
     Edge *edge = [self edgeWithSite:lSite andSite:rSite];
     
     [edges addObject:edge];
-    NSLog(@"number of edges: %lu", [edges count]);
+    //NSLog(@"number of edges: %lu", [edges count]);
     
     if (va) {
         [self setEdgeStartPointWithEdge:edge lSite:lSite rSite:rSite andVertex:va];
@@ -690,7 +686,7 @@
         [self setEdgeEndPointWithEdge:edge lSite:lSite rSite:rSite andVertex:vb];
     }
     
-    // Double check that all is ok here...
+    // Double check that all is ok here... Make sure that 0 is 0...
     
     Cell *lCell = [cells objectAtIndex:[lSite voronoiId]];
     [lCell addHalfedgeToArray:[[Halfedge alloc] initWithEdge:edge lSite:lSite andRSite:rSite]];             // Potential problem area
@@ -970,7 +966,7 @@
             || (fabs([[edge va] x] - [[edge vb] x]) < 1e-9 && fabs([[edge va] y] - [[edge vb] y]) < 1e-9)) {
             [edge setVb:nil];
             [edge setVa:nil];
-            [edges removeObjectAtIndex:iEdge];                                          // Possible problem area: implementation of js splice();
+            [edges removeObjectAtIndex:iEdge];
         }
     }
 }
@@ -1022,7 +1018,7 @@
         // Special case: only one site, in which case, the viewport is the cell
         // ...
         // all other cases
-        NSLog(@"halfedges: %@", halfedges);
+
         iLeft = 0;
         while (iLeft < nHalfedges) {
             iRight     = (iLeft + 1) % nHalfedges;
@@ -1035,7 +1031,7 @@
             float startPointY = [startpoint y];
             
             // if end point is not equal to start point, we need to add the missing halfedge(s) to close the cell
-            if (fabs(endPointX - startPointX)>=1e-9 || fabs(endPointY - startPointY) >= 1e-9) {
+            if (fabs(endPointX - startPointX)>=0.0005 || fabs(endPointY - startPointY) >= 0.0005) {
                 // if we reach this point, cell needs to be closed by walking counterclockwise 
                 // along the bounding box until it connects to the next halfedge in the list
                 va = endpoint;
@@ -1062,11 +1058,12 @@
                     
                     // walk leftward along top side
                     float tempX = [Voronoi equalWithEpsilonA:[startpoint y] andB:yt] ? [startpoint x] : xl;
+                    //NSLog(@"tempX: %f", tempX);
                     vb = [[Vertex alloc] initWithCoord:NSMakePoint(tempX, yt)];
                     
                 }
                 edge = [self createBorderEdgeWithSite:[cell site] andVertex:va andVertex:vb];
-                Halfedge *he = [[Halfedge alloc] initWithEdge:edge lSite:[cell site] andRSite:nil];
+                Halfedge *he = [[Halfedge alloc] initWithEdge:edge lSite:[cell site] andRSite:nil]; // possible problem?
                 [halfedges insertObject:he atIndex:(iLeft + 1)];
                 nHalfedges = (int)[halfedges count];
             }
@@ -1078,26 +1075,26 @@
 #pragma mark Math
 + (BOOL)equalWithEpsilonA:(float)a andB:(float)b
 {
-    return fabs(a-b)<1e-9;
+    return fabsf(a - b) < 0.0005; // 4e-6
 }
 
 + (BOOL)greaterThanWithEpsilonA:(float)a andB:(float)b
 {
-    return a-b>1e-9;
+    return a-b>0.0005;
 }
 
 + (BOOL)greaterThanOrEqualWithEpsilonA:(float)a andB:(float)b
 {
-    return b-a<1e-9;
+    return b-a<0.0005;
 }
 
 + (BOOL)lessThanWithEpsilonA:(float)a andB:(float)b
 {
-    return b-a>1e-9;
+    return b-a>0.0005;
 }
 
 + (BOOL)lessThanOrEqualWithEpsilonA:(float)a andB:(float)b
 {
-    return a-b<1e-9;
+    return a-b<0.0005;
 }
 @end
