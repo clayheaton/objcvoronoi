@@ -14,6 +14,12 @@
 @implementation Cell
 @synthesize site;
 
+- (NSString *)description
+{
+    NSString *d = [NSString stringWithFormat:@"Cell | site: %@, halfedges: %@", site, halfedges];
+    return d;
+}
+
 - (id)initWithSite:(Site *)s
 {
     self = [super init];

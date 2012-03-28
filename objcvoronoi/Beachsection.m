@@ -18,7 +18,7 @@
 {
     self = [super init];
     if (self) {
-        [self setSite:site];
+        [self setSite:theSite];
     }
     return self;
 }

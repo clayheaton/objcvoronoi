@@ -41,6 +41,16 @@
     return self;
 }
 
+- (NSString *)description
+{
+    
+    NSString *startPoint = [[self getStartpoint] description];
+    NSString *endPoint   = [[self getEndpoint] description];
+    
+    
+    return [NSString stringWithFormat:@"Halfedge | Start Point: %@, End Point: %@",startPoint, endPoint];
+}
+
 - (Vertex *)getStartpoint
 {
     return [[self edge] lSite] == [self site] ? [[self edge] va] : [[self edge] vb];

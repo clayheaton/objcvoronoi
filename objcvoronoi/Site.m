@@ -11,6 +11,11 @@
 @implementation Site
 @synthesize voronoiId;
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"(coord: %@, voronoiId: %i)", NSStringFromPoint(coord), voronoiId];
+}
+
 - (id)initWithCoord:(NSPoint)tempCoord
 {
     self = [super init];
@@ -83,10 +88,10 @@
 // TODO: Check that this is returning in the proper order;
 - (NSComparisonResult)compare:(Site *)s
 {
-    if (self.y < s.y) return NSOrderedAscending;
-    if (self.y > s.y) return NSOrderedDescending;
-    if (self.x < s.x) return NSOrderedAscending;
-    if (self.x > s.x) return NSOrderedDescending;
+    if (self.y < s.y) return NSOrderedDescending;
+    if (self.y > s.y) return NSOrderedAscending;
+    if (self.x < s.x) return NSOrderedDescending;
+    if (self.x > s.x) return NSOrderedAscending;
     
     return NSOrderedSame;
 }

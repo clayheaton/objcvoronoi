@@ -23,6 +23,8 @@
 		6FD9DCA01520F211006E3B85 /* Edge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DC9F1520F211006E3B85 /* Edge.m */; };
 		6FD9DCA71520F72C006E3B85 /* Vertex.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DCA61520F72C006E3B85 /* Vertex.m */; };
 		6FD9DCAA15221268006E3B85 /* Halfedge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DCA915221268006E3B85 /* Halfedge.m */; };
+		6FD9DCAE15225267006E3B85 /* VoronoiController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DCAD15225267006E3B85 /* VoronoiController.m */; };
+		6FD9DCB115225663006E3B85 /* VoronoiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FD9DCB015225663006E3B85 /* VoronoiView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,10 @@
 		6FD9DCA61520F72C006E3B85 /* Vertex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vertex.m; sourceTree = "<group>"; };
 		6FD9DCA815221268006E3B85 /* Halfedge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Halfedge.h; sourceTree = "<group>"; };
 		6FD9DCA915221268006E3B85 /* Halfedge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Halfedge.m; sourceTree = "<group>"; };
+		6FD9DCAC15225267006E3B85 /* VoronoiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoronoiController.h; sourceTree = "<group>"; };
+		6FD9DCAD15225267006E3B85 /* VoronoiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoronoiController.m; sourceTree = "<group>"; };
+		6FD9DCAF15225663006E3B85 /* VoronoiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoronoiView.h; sourceTree = "<group>"; };
+		6FD9DCB015225663006E3B85 /* VoronoiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoronoiView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,31 @@
 				6F7BC93F151BC2750013CDD7 /* VoronoiAppDelegate.h */,
 				6F7BC940151BC2750013CDD7 /* VoronoiAppDelegate.m */,
 				6F7BC942151BC2750013CDD7 /* MainMenu.xib */,
+				6FD9DCAC15225267006E3B85 /* VoronoiController.h */,
+				6FD9DCAD15225267006E3B85 /* VoronoiController.m */,
+				6FD9DCAF15225663006E3B85 /* VoronoiView.h */,
+				6FD9DCB015225663006E3B85 /* VoronoiView.m */,
+				6FD9DCAB1522524F006E3B85 /* Voronoi */,
+				6F7BC934151BC2750013CDD7 /* Supporting Files */,
+			);
+			path = objcvoronoi;
+			sourceTree = "<group>";
+		};
+		6F7BC934151BC2750013CDD7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F7BC935151BC2750013CDD7 /* objcvoronoi-Info.plist */,
+				6F7BC936151BC2750013CDD7 /* InfoPlist.strings */,
+				6F7BC939151BC2750013CDD7 /* main.m */,
+				6F7BC93B151BC2750013CDD7 /* objcvoronoi-Prefix.pch */,
+				6F7BC93C151BC2750013CDD7 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6FD9DCAB1522524F006E3B85 /* Voronoi */ = {
+			isa = PBXGroup;
+			children = (
 				6F7BC94F151BF67A0013CDD7 /* Voronoi.h */,
 				6F7BC950151BF67A0013CDD7 /* Voronoi.m */,
 				6F7BC971151CE87C0013CDD7 /* VoronoiResult.h */,
@@ -135,21 +166,8 @@
 				6FD9DCA915221268006E3B85 /* Halfedge.m */,
 				6FD9DCA51520F72C006E3B85 /* Vertex.h */,
 				6FD9DCA61520F72C006E3B85 /* Vertex.m */,
-				6F7BC934151BC2750013CDD7 /* Supporting Files */,
 			);
-			path = objcvoronoi;
-			sourceTree = "<group>";
-		};
-		6F7BC934151BC2750013CDD7 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6F7BC935151BC2750013CDD7 /* objcvoronoi-Info.plist */,
-				6F7BC936151BC2750013CDD7 /* InfoPlist.strings */,
-				6F7BC939151BC2750013CDD7 /* main.m */,
-				6F7BC93B151BC2750013CDD7 /* objcvoronoi-Prefix.pch */,
-				6F7BC93C151BC2750013CDD7 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
+			name = Voronoi;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +246,8 @@
 				6FD9DCA01520F211006E3B85 /* Edge.m in Sources */,
 				6FD9DCA71520F72C006E3B85 /* Vertex.m in Sources */,
 				6FD9DCAA15221268006E3B85 /* Halfedge.m in Sources */,
+				6FD9DCAE15225267006E3B85 /* VoronoiController.m in Sources */,
+				6FD9DCB115225663006E3B85 /* VoronoiView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

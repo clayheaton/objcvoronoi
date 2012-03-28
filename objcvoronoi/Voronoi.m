@@ -51,18 +51,16 @@
     [self setBoundingBox:bbox];
     
     NSMutableArray *siteEvents = [[NSMutableArray alloc] initWithArray:sites];
-    NSLog(@"Unsorted sites: %@", siteEvents);
     [Site sortSites:siteEvents];
-    NSLog(@"Sorted Sites: %@", siteEvents);
-    
+    NSLog(@"Sorted siteEvents: %@", siteEvents);
     Site *site = [siteEvents lastObject];
     [siteEvents removeLastObject];
     
     int siteid = 0;
     
-    float xsitex = -FLT_MAX; // To avoid duplicate sites
-    float xsitey = -FLT_MAX;
-    
+    float xsitex = FLT_MIN; // To avoid duplicate sites
+    float xsitey = FLT_MIN;
+    NSLog(@"%f", xsitex);
     CircleEvent *circle;
     
     ///////////////
@@ -77,18 +75,19 @@
         ////////////////////////////////////////////////////////////////////
         
         circle = [self firstCircleEvent];
-        
         // Add Beach Section
+        
         if (site && (!circle || site.y < circle.y || (site.y == circle.y && site.x < circle.x))) {
             // Only if site is not a duplicate
             if (site.x != xsitex || site.y != xsitey) {
                 // First, create cell for the new site
                 [cells addObject:[[Cell alloc] initWithSite:site]];
+                NSLog(@"cells: %@", cells);
                 [site setVoronoiId:siteid];
                 siteid += 1;
-                
+
                 // Then create a beachsection for that site
-                [self addBeachsection:site];                        /// PROBLEM HERE!!!!!!
+                [self addBeachsection:site];                        
                 
                 // Remember last site coords to detect duplicates
                 xsitey = [site y];
@@ -96,9 +95,11 @@
             }
             site = [siteEvents lastObject];
             [siteEvents removeLastObject];
+            
         } else if (circle) {
             // remove beach section
             [self removeBeachsection:[circle arc]];                 /// PROBLEM HERE!!!!!!!
+            
         } else {
             // all done, quit
             break;
@@ -123,7 +124,6 @@
     [result setCells:cells];
     [result setEdges:edges];
     
-    [self reset];
     return result;
 }
 
@@ -176,26 +176,37 @@
     Beachsection *lArc, *rArc;
     float dxl, dxr;
     
+    if (node == nil) {
+        NSLog(@"node is nil");
+    }
+    
     while (node) {
         dxl = [self leftBreakPointWithArc:node andDirectrix:directrix] - x;
         if (dxl > 1e-9) {
             node = node.rbLeft;
+            //NSLog(@"while(node) case 1");
         } else {
+            //NSLog(@"while(node) case 2");
             dxr = x - [self rightBreakPointWithArc:node andDirectrix:directrix];
             if (dxr > 1e-9) {
                 if (![node rbRight]) {
+                    //NSLog(@"while(node) case 3");
                     lArc = node;
                     break;
                 }
+                //NSLog(@"while(node) case 4");
                 node = [node rbRight];
             } else {
                 if (dxl > -1e-9) {
+                    //NSLog(@"while(node) case 5");
                     lArc = [node rbPrevious];
                     rArc = node;
                 } else if (dxr > -1e-9) {
+                    //NSLog(@"while(node) case 6");
                     lArc = node;
                     rArc = [node rbNext];
                 } else {
+                    //NSLog(@"while(node) case 7");
                     rArc = node;
                     lArc = node;
                 }
@@ -208,11 +219,13 @@
     // At this point, keep in mind that lArc and/or rArc could be undefined //
     // or nil.                                                              //
     //////////////////////////////////////////////////////////////////////////
+    //NSLog(@"lArc: %@", lArc == nil ? @"lArc is nil" : @"lArc");
+    // NSLog(@"rArc: %@", rArc == nil ? @"rArc is nil" : @"rArc");
     
     // Create a new beach section object for the site and add it to RB-tree
     Beachsection *newArc = [self createBeachsection:site];
     [beachline rbInsertSuccessorForNode:lArc withSuccessor:newArc];
-    
+    NSLog(@"beachline: %@", beachline);
     // Cases:
     
     // [null, null]
@@ -223,6 +236,7 @@
     //  New beachsection becomes root of the RB-tree
     
     if (!lArc && !rArc) {
+        NSLog(@"addBeachSection case 1");
         return;
     }
     
@@ -234,6 +248,7 @@
     //  Two new nodes added to the RB-tree
     
     if (lArc == rArc) {
+        NSLog(@"addBeachSection case 2");
         // Invalidate the circle event of split beach section
         [self detachCircleEvent:lArc];
         
@@ -242,8 +257,9 @@
         [beachline rbInsertSuccessorForNode:newArc withSuccessor:rArc];
         
         // since we have a new transition between two beach sections, a new edge is born
-        [rArc setEdge:[self edgeWithSite:[lArc site] andSite:[newArc site]]];
-        [newArc setEdge:[rArc edge]];
+        Edge *e = [self createEdgeWithSite:[lArc site] andSite:[newArc site] andVertex:nil andVertex:nil];
+        [rArc setEdge:e];
+        [newArc setEdge:e];
         
         // Check whether the left and right beach sections are collapsing
         // and if so, create circle events, to be notified when the point of
@@ -262,6 +278,7 @@
     //  No collapsing beach section as a result
     // New beach section becomes right-most node of the RB-tree
     if (lArc && !rArc) {
+        NSLog(@"addBeachSection case 3");
         [newArc setEdge:[self edgeWithSite:[lArc site] andSite:[newArc site]]];
         return;
     }
@@ -281,6 +298,7 @@
     //  The left and right beach section might be collapsing as a result
     //  Only one new node added to the RB-tree
     if (lArc != rArc) {
+        NSLog(@"addBeachSection case 4");
         // invalidate circle events of left and right sites
         [self detachCircleEvent:lArc];
         [self detachCircleEvent:rArc];
@@ -318,6 +336,8 @@
                                        andVertex:nil 
                                        andVertex:vertex]];
         
+        NSLog(@"Here 1");
+        
         [rArc setEdge:[self createEdgeWithSite:site
                                        andSite:rSite 
                                      andVertex:nil 
@@ -333,7 +353,7 @@
 
 - (void)removeBeachsection:(Beachsection *)bs
 {
-    CircleEvent *circle = [bs circleEvent];
+    CircleEvent *circle = [bs circleEvent]; // Problem with circleEvent having the wrong coord value?
     float x = [circle x];
     float y = [circle ycenter];
     Vertex *vertex = [[Vertex alloc] initWithCoord:NSMakePoint(x, y)];
@@ -405,6 +425,8 @@
     lArc = [disappearingTransitions objectAtIndex:0];
     rArc = [disappearingTransitions objectAtIndex:(nArcs - 1)];
     [rArc setEdge:[self createEdgeWithSite:[lArc site] andSite:[rArc site] andVertex:nil andVertex:vertex]];
+    
+    NSLog(@"Removing Beach Section");
     
     // Create circle events if any foor beach sections nleft in the beachline
     // adjacent to collapsed sections
@@ -571,7 +593,7 @@
     // collapse, hence it can't end up as a vertex (we reuse 'd' here, which
     // sign is reverse of the orientation, hence we reverse the test.
     // http://en.wikipedia.org/wiki/Curve_orientation#Orientation_of_a_simple_polygon
-    // Nasty rinite precision error which caused circumcircle() to return infinites.
+    // Nasty finite precision error which caused circumcircle() to return infinites.
     // 1e-12 seems to fix the problem.
     
     float d = 2 * (ax*cy - ay*cx);
@@ -627,7 +649,7 @@
     }
     [circleEvents rbInsertSuccessorForNode:predecessor withSuccessor:circleEvent];
     if (!predecessor) {
-        firstCircleEvent = circleEvent;
+        [self setFirstCircleEvent:circleEvent];
     }
 }
 
@@ -658,6 +680,8 @@
     Edge *edge = [self edgeWithSite:lSite andSite:rSite];
     
     [edges addObject:edge];
+    NSLog(@"number of edges: %lu", [edges count]);
+    
     if (va) {
         [self setEdgeStartPointWithEdge:edge lSite:lSite rSite:rSite andVertex:va];
     }
@@ -980,7 +1004,7 @@
     
     while (iCell--) {
         cell = [cells objectAtIndex:iCell];
-        
+        NSLog(@"%@", cell);
         // Trim non full-defined halfedges and sort them counterclockwise
         if (![cell prepare]) {
             continue;
@@ -1002,8 +1026,13 @@
             endpoint   = [[halfedges objectAtIndex:iLeft] getEndpoint];
             startpoint = [[halfedges objectAtIndex:iRight] getStartpoint];
             
+            float endPointX = [endpoint x];
+            float endPointY = [endpoint y];
+            float startPointX = [startpoint x];
+            float startPointY = [startpoint y];
+            
             // if end point is not equal to start point, we need to add the missing halfedge(s) to close the cell
-            if (fabs([endpoint x] - [startpoint x])>=1e-9 || fabs([endpoint y] - [startpoint y]) >= 1e-9) {
+            if (fabs(endPointX - startPointX)>=1e-9 || fabs(endPointY - startPointY) >= 1e-9) {
                 // if we reach this point, cell needs to be closed by walking counterclockwise 
                 // along the bounding box until it connects to the next halfedge in the list
                 va = endpoint;
@@ -1038,7 +1067,7 @@
                 [halfedges insertObject:he atIndex:(iLeft + 1)];
                 nHalfedges = (int)[halfedges count];
             }
-            iLeft ++;
+            iLeft++;
         }
     }
 }
@@ -1046,26 +1075,26 @@
 #pragma mark Math
 + (BOOL)equalWithEpsilonA:(float)a andB:(float)b
 {
-    return fabs(a-b)<FLT_EPSILON;
+    return fabs(a-b)<1e-9;
 }
 
 + (BOOL)greaterThanWithEpsilonA:(float)a andB:(float)b
 {
-    return a-b>FLT_EPSILON;
+    return a-b>1e-9;
 }
 
 + (BOOL)greaterThanOrEqualWithEpsilonA:(float)a andB:(float)b
 {
-    return b-a<FLT_EPSILON;
+    return b-a<1e-9;
 }
 
 + (BOOL)lessThanWithEpsilonA:(float)a andB:(float)b
 {
-    return b-a>FLT_EPSILON;
+    return b-a>1e-9;
 }
 
 + (BOOL)lessThanOrEqualWithEpsilonA:(float)a andB:(float)b
 {
-    return a-b<FLT_EPSILON;
+    return a-b<1e-9;
 }
 @end

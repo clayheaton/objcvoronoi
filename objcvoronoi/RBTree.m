@@ -55,6 +55,7 @@
         [node setRbLeft:successor];
         parent = node;
     } else {
+        // First section added -- root assigned
         [successor setRbPrevious:nil];
         [successor setRbNext:nil];
         [self setRoot:successor];
