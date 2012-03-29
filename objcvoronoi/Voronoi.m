@@ -2,9 +2,8 @@
 //  Voronoi.m
 //  objcvoronoi
 //
-//  Created by Clay Heaton on 3/22/12.
-//  Copyright (c) 2012 The Perihelion Group. All rights reserved.
-//
+
+#import "VoronoiConstants.h"
 
 #import "Voronoi.h"
 #import "RBTree.h"
@@ -52,7 +51,7 @@
     
     NSMutableArray *siteEvents = [[NSMutableArray alloc] initWithArray:sites];
     [Site sortSites:siteEvents];
-    //NSLog(@"Sorted siteEvents: %@", siteEvents);
+
     Site *site = [siteEvents lastObject];
     [siteEvents removeLastObject];
     
@@ -60,7 +59,7 @@
     
     float xsitex = FLT_MIN; // To avoid duplicate sites
     float xsitey = FLT_MIN;
-    //NSLog(@"%f", xsitex);
+
     CircleEvent *circle;
     
     ///////////////
@@ -82,7 +81,7 @@
             if (site.x != xsitex || site.y != xsitey) {
                 // First, create cell for the new site
                 [cells addObject:[[Cell alloc] initWithSite:site]];
-                //NSLog(@"cells: %@", cells);
+
                 [site setVoronoiId:siteid];
                 siteid += 1;
 
@@ -98,7 +97,7 @@
             
         } else if (circle) {
             // remove beach section
-            [self removeBeachsection:[circle arc]];                 /// PROBLEM HERE!!!!!!!
+            [self removeBeachsection:[circle arc]];
             
         } else {
             // all done, quit
@@ -161,7 +160,6 @@
     return [Beachsection createBeachSectionFromJunkyard:beachsectionJunkyard withSite:site];
 }
 
-// TODO: Revisit FLT_EPISILON vs. 1e-9
 - (void)addBeachsection:(Site *)site
 {
     float x = site.x;
@@ -178,31 +176,24 @@
     
     while (node) {
         dxl = [self leftBreakPointWithArc:node andDirectrix:directrix] - x;
-        if (dxl > 1e-9) {
+        if (dxl > VORONOI_EPSILON) {
             node = node.rbLeft;
-            //NSLog(@"while(node) case 1");
         } else {
-            //NSLog(@"while(node) case 2");
             dxr = x - [self rightBreakPointWithArc:node andDirectrix:directrix];
-            if (dxr > 1e-9) {
+            if (dxr > VORONOI_EPSILON) {
                 if (![node rbRight]) {
-                    //NSLog(@"while(node) case 3");
                     lArc = node;
                     break;
                 }
-                //NSLog(@"while(node) case 4");
                 node = [node rbRight];
             } else {
-                if (dxl > -1e-9) {
-                    //NSLog(@"while(node) case 5");
+                if (dxl > -VORONOI_EPSILON) {
                     lArc = [node rbPrevious];
                     rArc = node;
-                } else if (dxr > -1e-9) {
-                    //NSLog(@"while(node) case 6");
+                } else if (dxr > -VORONOI_EPSILON) {
                     lArc = node;
                     rArc = [node rbNext];
                 } else {
-                    //NSLog(@"while(node) case 7");
                     rArc = node;
                     lArc = node;
                 }
@@ -215,36 +206,36 @@
     // At this point, keep in mind that lArc and/or rArc could be undefined //
     // or nil.                                                              //
     //////////////////////////////////////////////////////////////////////////
-    //NSLog(@"lArc: %@", lArc == nil ? @"lArc is nil" : @"lArc");
-    // NSLog(@"rArc: %@", rArc == nil ? @"rArc is nil" : @"rArc");
+
     
     // Create a new beach section object for the site and add it to RB-tree
     Beachsection *newArc = [self createBeachsection:site];
     [beachline rbInsertSuccessorForNode:lArc withSuccessor:newArc];
-    //NSLog(@"beachline: %@", beachline);
+
     // Cases:
     
     // [null, null]
     // Least likely case: new beach section is the first beach section on the beachline.
+    
     // This case means:
     //  No new transition appears
     //  No collapsing beach section
     //  New beachsection becomes root of the RB-tree
     
     if (!lArc && !rArc) {
-        //NSLog(@"addBeachSection case 1");
         return;
     }
     
     // [lArc, rArc] where larc == rArc
     // Most likely case: new beach section split an existing beach section
+    
     // This case means:
     //  One new transition appears
     //  The left and right beach section might be collapsing as a result
     //  Two new nodes added to the RB-tree
     
     if (lArc == rArc) {
-        //NSLog(@"addBeachSection case 2");
+
         // Invalidate the circle event of split beach section
         [self detachCircleEvent:lArc];
         
@@ -260,8 +251,10 @@
         // Check whether the left and right beach sections are collapsing
         // and if so, create circle events, to be notified when the point of
         // collapse is reached.
+        
         [self attachCircleEvent:lArc];
         [self attachCircleEvent:rArc];
+        
         return;
     }
     
@@ -269,12 +262,13 @@
     // Even less likely case: new beach section is the *last* beach section on the beachline
     // This can happen *only* if *all* the previous beach sections currently on the beachline
     // share the same y value as the new beach section.
+    
     // This case means:
     //  One new transition appears
     //  No collapsing beach section as a result
-    // New beach section becomes right-most node of the RB-tree
+    //  New beach section becomes right-most node of the RB-tree
+    
     if (lArc && !rArc) {
-        //NSLog(@"addBeachSection case 3");
         Edge *e2 = [self createEdgeWithSite:[lArc site] andSite:[newArc site] andVertex:nil andVertex:nil];
         [newArc setEdge:e2];
         return;
@@ -289,13 +283,14 @@
     
     // [lArc, rArc] where lArc != rArc
     // Somewhat less likely case: new beach section falls *exactly* in between two existing sections
+    
     // This case means:
     //  One transition disappears
     //  Two new transitions appear
     //  The left and right beach section might be collapsing as a result
     //  Only one new node added to the RB-tree
+    
     if (lArc != rArc) {
-        //NSLog(@"addBeachSection case 4");
         // invalidate circle events of left and right sites
         [self detachCircleEvent:lArc];
         [self detachCircleEvent:rArc];
@@ -306,6 +301,7 @@
         // new and right beachsections.
         // http://mathforum.org/library/drmath/view/55002.html
         // Except that I bring the origin at A to simplify calculation
+        
         Site *lSite = [lArc site];
         float ax = lSite.x;
         float ay = lSite.y;
@@ -333,8 +329,6 @@
                                        andVertex:nil 
                                        andVertex:vertex]];
         
-        //NSLog(@"Here 1");
-        
         [rArc setEdge:[self createEdgeWithSite:site
                                        andSite:rSite 
                                      andVertex:nil 
@@ -342,15 +336,17 @@
         
         // Check whether the left and right beach sections are collapsing
         // and if so create circle events, to handle the point of collapse
+        
         [self attachCircleEvent:lArc];
         [self attachCircleEvent:rArc];
+        
         return;
     }
 }
 
 - (void)removeBeachsection:(Beachsection *)bs
 {
-    CircleEvent *circle = [bs circleEvent]; // Problem with circleEvent having the wrong coord value?
+    CircleEvent *circle = [bs circleEvent];
     float x = [circle x];
     float y = [circle ycenter];
     Vertex *vertex = [[Vertex alloc] initWithCoord:NSMakePoint(x, y)];
@@ -365,6 +361,7 @@
     // happens when more than two edges are linked by the same vertex,
     // so we will collect all those edges by looking up both sides of 
     // the deletion point.
+    
     // By the way, there is *always* a predecessor/successor to any collapsed
     // beach section, it's just impossible to have a collapsing first/last
     // beach section on the beachline, since they obviously are unconstrained
@@ -372,7 +369,7 @@
     
     // look left
     Beachsection *lArc = previous;
-    while ([lArc circleEvent] && fabs(x - [[lArc circleEvent] x]) < 1e-9 && fabs(y - [[lArc circleEvent] ycenter]) < 1e-9) {
+    while ([lArc circleEvent] && fabsf(x - [[lArc circleEvent] x]) < VORONOI_EPSILON && fabsf(y - [[lArc circleEvent] ycenter]) < VORONOI_EPSILON) {
         previous = [lArc rbPrevious];
         [disappearingTransitions insertObject:lArc atIndex:0];
         [self detachBeachsection:lArc]; // Mark for reuse
@@ -389,7 +386,7 @@
     
     // look right
     Beachsection *rArc = next;
-    while ([rArc circleEvent] && fabs(x - [[rArc circleEvent] x]) < 1e-9 && fabs(y - [[rArc circleEvent] ycenter]) < 1e-9) {
+    while ([rArc circleEvent] && fabsf(x - [[rArc circleEvent] x]) < VORONOI_EPSILON && fabsf(y - [[rArc circleEvent] ycenter]) < VORONOI_EPSILON) {
         next = [rArc rbNext];
         [disappearingTransitions addObject:rArc];
         [self detachBeachsection:rArc]; // mark for reuse
@@ -423,8 +420,6 @@
     rArc = [disappearingTransitions objectAtIndex:(nArcs - 1)];
     [rArc setEdge:[self createEdgeWithSite:[lArc site] andSite:[rArc site] andVertex:nil andVertex:vertex]];
     
-    //NSLog(@"Removing Beach Section");
-    
     // Create circle events if any foor beach sections nleft in the beachline
     // adjacent to collapsed sections
     [self attachCircleEvent:lArc];
@@ -452,7 +447,6 @@
 }
 
 // Calculate the left break point of a particular beach section, given a particular sweep line
-// TODO: Check that the !pby2 call is legit; might need to check value at zero
 - (float)leftBreakPointWithArc:(Beachsection *)arc 
                   andDirectrix:(float)directrix
 {
@@ -677,7 +671,6 @@
     Edge *edge = [self edgeWithSite:lSite andSite:rSite];
     
     [edges addObject:edge];
-    //NSLog(@"number of edges: %lu", [edges count]);
     
     if (va) {
         [self setEdgeStartPointWithEdge:edge lSite:lSite rSite:rSite andVertex:va];
@@ -686,10 +679,8 @@
         [self setEdgeEndPointWithEdge:edge lSite:lSite rSite:rSite andVertex:vb];
     }
     
-    // Double check that all is ok here... Make sure that 0 is 0...
-    
     Cell *lCell = [cells objectAtIndex:[lSite voronoiId]];
-    [lCell addHalfedgeToArray:[[Halfedge alloc] initWithEdge:edge lSite:lSite andRSite:rSite]];             // Potential problem area
+    [lCell addHalfedgeToArray:[[Halfedge alloc] initWithEdge:edge lSite:lSite andRSite:rSite]];
     
     Cell *rCell = [cells objectAtIndex:[rSite voronoiId]];
     [rCell addHalfedgeToArray:[[Halfedge alloc] initWithEdge:edge lSite:rSite andRSite:lSite]];
@@ -963,7 +954,7 @@
         //  it is actually a point rather than a line
         if (![self connectEdge:edge withBoundingBox:bbox] 
             || ![self clipEdge:edge withBoundingBox:bbox]
-            || (fabs([[edge va] x] - [[edge vb] x]) < 1e-9 && fabs([[edge va] y] - [[edge vb] y]) < 1e-9)) {
+            || (fabsf([[edge va] x] - [[edge vb] x]) < VORONOI_EPSILON && fabsf([[edge va] y] - [[edge vb] y]) < VORONOI_EPSILON)) {
             [edge setVb:nil];
             [edge setVa:nil];
             [edges removeObjectAtIndex:iEdge];
@@ -985,14 +976,6 @@
     int iCell = (int)[cells count];
     Cell *cell;
     
-    /*
-     iLeft, iRight
-     halfedges, nHalfedges
-     edge
-     startpoint, endpoint
-     va, vb
-     */
-    
     NSMutableArray *halfedges;
     int iLeft, iRight, nHalfedges;
     Edge *edge;
@@ -1003,7 +986,7 @@
     
     while (iCell--) {
         cell = [cells objectAtIndex:iCell];
-        //NSLog(@"%@", cell);
+
         // Trim non full-defined halfedges and sort them counterclockwise
         if (![cell prepare]) {
             continue;
@@ -1031,7 +1014,7 @@
             float startPointY = [startpoint y];
             
             // if end point is not equal to start point, we need to add the missing halfedge(s) to close the cell
-            if (fabs(endPointX - startPointX)>=0.0005 || fabs(endPointY - startPointY) >= 0.0005) {
+            if (fabsf(endPointX - startPointX) >= VORONOI_EPSILON || fabsf(endPointY - startPointY) >= VORONOI_EPSILON) {
                 // if we reach this point, cell needs to be closed by walking counterclockwise 
                 // along the bounding box until it connects to the next halfedge in the list
                 va = endpoint;
@@ -1058,7 +1041,6 @@
                     
                     // walk leftward along top side
                     float tempX = [Voronoi equalWithEpsilonA:[startpoint y] andB:yt] ? [startpoint x] : xl;
-                    //NSLog(@"tempX: %f", tempX);
                     vb = [[Vertex alloc] initWithCoord:NSMakePoint(tempX, yt)];
                     
                 }
@@ -1075,26 +1057,26 @@
 #pragma mark Math
 + (BOOL)equalWithEpsilonA:(float)a andB:(float)b
 {
-    return fabsf(a - b) < 0.0005; // 4e-6
+    return fabsf(a - b) < VORONOI_EPSILON;
 }
 
 + (BOOL)greaterThanWithEpsilonA:(float)a andB:(float)b
 {
-    return a-b>0.0005;
+    return a-b > VORONOI_EPSILON;
 }
 
 + (BOOL)greaterThanOrEqualWithEpsilonA:(float)a andB:(float)b
 {
-    return b-a<0.0005;
+    return b-a < VORONOI_EPSILON;
 }
 
 + (BOOL)lessThanWithEpsilonA:(float)a andB:(float)b
 {
-    return b-a>0.0005;
+    return b-a > VORONOI_EPSILON;
 }
 
 + (BOOL)lessThanOrEqualWithEpsilonA:(float)a andB:(float)b
 {
-    return a-b<0.0005;
+    return a-b < VORONOI_EPSILON;
 }
 @end

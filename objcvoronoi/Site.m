@@ -2,9 +2,6 @@
 //  Site.m
 //  objcvoronoi
 //
-//  Created by Clay Heaton on 3/23/12.
-//  Copyright (c) 2012 The Perihelion Group. All rights reserved.
-//
 
 #import "Site.h"
 
@@ -36,7 +33,6 @@
 
 - (id)init
 {
-    NSLog(@"Initializing Site with NSZeroPoint. Consider using initWithCoord: instead");
     return [self initWithCoord:NSZeroPoint];
 }
 

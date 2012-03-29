@@ -2,9 +2,6 @@
 //  VoronoiView.m
 //  objcvoronoi
 //
-//  Created by Clay Heaton on 3/27/12.
-//  Copyright (c) 2012 The Perihelion Group. All rights reserved.
-//
 
 #import "VoronoiView.h"
 #import "Cell.h"
@@ -21,16 +18,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-        //[self setBounds:NSMakeRect(0, 0, 100, 100)];
     }
     
     return self;
 }
 
+/* Can be useful for testing
+ 
 - (BOOL)isFlipped
 {
     return YES;
 }
+ 
+*/
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -40,7 +40,8 @@
     [[NSColor whiteColor]set];
     [NSBezierPath fillRect:[self bounds]];
     
-    [[NSColor blackColor] set];
+    
+    [[NSColor redColor] set];
     
     for (NSValue *v in sites) {
         NSBezierPath *p = [[NSBezierPath alloc] init];
@@ -49,8 +50,9 @@
         
     }
     
+    [[NSColor blackColor] set];
+    
     for (Cell *c in cells) {
-        // NSLog(@"Cell halfedges: %@", [c halfedges]);
         for (Halfedge *he in [c halfedges]) {
             NSPoint p1 = [[[he edge] va] coord];
             NSPoint p2 = [[[he edge] vb] coord];

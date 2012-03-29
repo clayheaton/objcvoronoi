@@ -2,9 +2,6 @@
 //  Halfedge.m
 //  objcvoronoi
 //
-//  Created by Clay Heaton on 3/27/12.
-//  Copyright (c) 2012 The Perihelion Group. All rights reserved.
-//
 
 #import "Halfedge.h"
 #import "Site.h"
@@ -25,6 +22,7 @@
         // halfsegments counterclockwise. By convention, we will
         // use the angle of the line defined by the 'site to the left'
         // to the 'site to the right'.
+        
         // However, border edges have no 'site to the right': thus we
         // use the angle of the line perpendicular to the halfsegment (the
         // edge should have both end points defined in such case.)

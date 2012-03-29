@@ -2,9 +2,6 @@
 //  Beachsection.h
 //  objcvoronoi
 //
-//  Created by Clay Heaton on 3/22/12.
-//  Copyright (c) 2012 The Perihelion Group. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 
