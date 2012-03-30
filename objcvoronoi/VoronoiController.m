@@ -12,35 +12,48 @@
 #import "ClayPathMaker.h"
 
 @implementation VoronoiController
-
-
-- (IBAction)testVoronoi:(id)sender
+@synthesize xMax, yMax;
+- (id)init
 {
+    self = [super init];
+    if (self) {
+        randomPoints = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (IBAction)relaxWithLloyd:(id)sender
+{
+    NSLog(@"Relaxing diagram not yet implemented.");
+}
+
+- (IBAction)newVoronoi:(id)sender
+{
+    [randomPoints removeAllObjects];
+    
     int numSites = [numSitesEntry intValue];
     int margin   = [marginEntry   intValue];
     
-    voronoi = [[Voronoi alloc] init];
-    
     // Send in sites as NSPoints that have been converted to NSValue
     
-    NSMutableArray *sites = [[NSMutableArray alloc] init];
-    
-    float xMax = [voronoiview bounds].size.width;
-    float yMax = [voronoiview bounds].size.height;
-    
-    NSValue *start = [NSValue valueWithPoint:NSMakePoint(100, 0)];
-    NSValue *end   = [NSValue valueWithPoint:NSMakePoint(xMax, 100)];
-   [sites addObject:start];
-   [sites addObject:end];
+    xMax = [voronoiview bounds].size.width;
+    yMax = [voronoiview bounds].size.height;
     
     for (int i = 0; i < numSites; i++) {
         float x = margin + (arc4random() % ((int)xMax - margin*2));
         float y = margin + (arc4random() % ((int)yMax - margin*2));
         NSValue *v = [NSValue valueWithPoint:NSMakePoint(x, y)];
-        [sites addObject:v];
+        [randomPoints addObject:v];
     }
     
-    VoronoiResult *result = [voronoi computeWithSites:sites andBoundingBox:[voronoiview bounds]];
+    [self calculateVoronoi];
+}
+
+- (void)calculateVoronoi
+{
+    
+    voronoi = [[Voronoi alloc] init];
+    VoronoiResult *result = [voronoi computeWithSites:randomPoints andBoundingBox:[voronoiview bounds]];
     
     NSMutableArray *sitesFromCells = [[NSMutableArray alloc] init];
     
@@ -52,8 +65,10 @@
     [voronoiview setSites:sitesFromCells];
     [voronoiview setCells:[result cells]];
     
-    NSValue *midPoint = [NSValue valueWithPoint:NSMakePoint(xMax * 0.3, yMax * 0.3)];
-    NSValue *midPoint2 = [NSValue valueWithPoint:NSMakePoint(xMax * 0.7, yMax * 0.75)];
+    NSValue *start = [NSValue valueWithPoint:NSMakePoint(0, yMax * 0.5)];
+    NSValue *end   = [NSValue valueWithPoint:NSMakePoint(xMax, yMax * 0.5)];
+    NSValue *midPoint = [NSValue valueWithPoint:NSMakePoint(xMax * 0.33, 0)];
+    NSValue *midPoint2 = [NSValue valueWithPoint:NSMakePoint(xMax * 0.66, yMax)];
     
     NSMutableArray *pathNodes = [[NSMutableArray alloc] init];
     [pathNodes addObject:start];
@@ -68,7 +83,7 @@
     
     [voronoiview setNeedsDisplay:YES];
 
-    [drawButton setTitle:@"Draw Again"];
+    [relaxButton setEnabled:YES];
     
 }
 

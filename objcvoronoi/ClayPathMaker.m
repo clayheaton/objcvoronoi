@@ -152,8 +152,8 @@
         // Condition to break out if all of the remaining keys to evaluate are null
         if (numkeys == numnilkeys) {
             nilLoops ++;
-            NSLog(@"  broke out because of nil keys.");
-            NSLog(@"  %lu objects remain in unvisitedSet.", [unvisitedSet count]);
+            // NSLog(@"  broke out because of nil keys.");
+            // NSLog(@"  %lu objects remain in unvisitedSet.", [unvisitedSet count]);
             nextVertex = reserveVertex;
             [nextVertex setPreviousVertex:[reserveVertex previousVertex]];
             

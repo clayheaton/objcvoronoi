@@ -78,9 +78,21 @@
     IBOutlet NSTextField *numSitesEntry;
     IBOutlet NSTextField *marginEntry;
     IBOutlet NSButton *drawButton;
+    IBOutlet NSButton *relaxButton;
+    
+    NSMutableArray *randomPoints;
+    float xMax;
+    float yMax;
 }
 
-- (IBAction)testVoronoi:(id)sender;
+@property (assign, readwrite) float xMax;
+@property (assign, readwrite) float yMax;
+
+- (IBAction)relaxWithLloyd:(id)sender;
+
+- (void)calculateVoronoi;
+
+- (IBAction)newVoronoi:(id)sender;
 
 @end
 
