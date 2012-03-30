@@ -23,4 +23,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@ - %@ | va: %@, vb: %@",[va uniqueID], [vb uniqueID], va, vb];
+}
+
 @end

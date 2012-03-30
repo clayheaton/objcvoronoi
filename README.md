@@ -43,6 +43,7 @@ VoronoiResult
 
 7. The following messages sent to your VoronoiResult object will provide you with what you need in order to work with your diagram:
 ```[result cells];
+
 [result edges];
 ```
 8. You may need to include the classes Cell and Edge (and others) in your view or controller in order to process results.

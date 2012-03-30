@@ -9,6 +9,7 @@
 #import "VoronoiView.h"
 #import "Site.h"
 #import "Cell.h"
+#import "DijkstraSolver.h"
 
 @implementation VoronoiController
 
@@ -26,6 +27,11 @@
     
     float xMax = [voronoiview bounds].size.width;
     float yMax = [voronoiview bounds].size.height;
+    
+    NSValue *start = [NSValue valueWithPoint:NSMakePoint(100, 0)];
+    NSValue *end   = [NSValue valueWithPoint:NSMakePoint(xMax, 100)];
+   [sites addObject:start];
+   [sites addObject:end];
     
     for (int i = 0; i < numSites; i++) {
         float x = margin + (arc4random() % ((int)xMax - margin*2));
@@ -45,6 +51,14 @@
     
     [voronoiview setSites:sitesFromCells];
     [voronoiview setCells:[result cells]];
+    
+    
+    DijkstraSolver *dij = [[DijkstraSolver alloc] initWithEdges:[result edges] 
+                                                  theStartPoint:[start pointValue] 
+                                                    theEndPoint:[end pointValue] 
+                                                      andBounds:[voronoiview bounds]];
+    NSLog(@"Dijkstra: %@", dij);
+    
     [voronoiview setNeedsDisplay:YES];
 
     [drawButton setTitle:@"Draw Again"];
