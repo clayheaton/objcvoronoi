@@ -49,7 +49,10 @@ VoronoiResult
 8. You may need to include the classes Cell and Edge (and others) in your view or controller in order to process results.
 
 ps. In this example, VoronoiController and VoronoiView are for example purposes only. They are not needed for the library to function.
-   
+
+
+30 March 2012 update
+I added the ClayPathMaker (optional) class, based on Dijkstra's algorithm, that will calculate a path along the edges in the Voronoi results. The path can have nodes. It avoids using edges that are on the bounding box edges. You can see it in use in VoronoiController.m.
 
 Clay Heaton - 28 March 2012
 clay@theperiheliongroup.com
