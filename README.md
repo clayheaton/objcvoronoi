@@ -42,7 +42,8 @@ VoronoiResult
 6. In 5. 'sites' is the array that you created in step 2. The 'andBoundingBox' is an NSRect with the bounds of your view or the bounds that you wish to use to calculate your diagram.
 
 7. The following messages sent to your VoronoiResult object will provide you with what you need in order to work with your diagram:
-```[result cells];
+```
+[result cells];
 
 [result edges];
 ```
@@ -52,6 +53,7 @@ ps. In this example, VoronoiController and VoronoiView are for example purposes 
 
 
 30 March 2012 update
+
 I added the ClayPathMaker (optional) class, based on Dijkstra's algorithm, that will calculate a path along the edges in the Voronoi results. The path can have nodes. It avoids using edges that are on the bounding box edges. You can see it in use in VoronoiController.m.
 
 Clay Heaton - 28 March 2012
