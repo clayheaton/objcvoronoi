@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F66C1841524D8D7004078A5 /* DijkstraSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F66C1831524D8D7004078A5 /* DijkstraSolver.m */; };
+		6F58B94B1526349900923BA9 /* ClayPathMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F58B94A1526349900923BA9 /* ClayPathMaker.m */; };
 		6F76ACB71523D8640029416F /* VoronoiConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F76ACB61523D8640029416F /* VoronoiConstants.m */; };
 		6F7BC92E151BC2750013CDD7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7BC92D151BC2750013CDD7 /* Cocoa.framework */; };
 		6F7BC938151BC2750013CDD7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F7BC936151BC2750013CDD7 /* InfoPlist.strings */; };
@@ -30,8 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6F66C1821524D8D7004078A5 /* DijkstraSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DijkstraSolver.h; sourceTree = "<group>"; };
-		6F66C1831524D8D7004078A5 /* DijkstraSolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DijkstraSolver.m; sourceTree = "<group>"; };
+		6F58B9491526349900923BA9 /* ClayPathMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClayPathMaker.h; sourceTree = "<group>"; };
+		6F58B94A1526349900923BA9 /* ClayPathMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClayPathMaker.m; sourceTree = "<group>"; };
 		6F76ACB51523D8640029416F /* VoronoiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoronoiConstants.h; sourceTree = "<group>"; };
 		6F76ACB61523D8640029416F /* VoronoiConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoronoiConstants.m; sourceTree = "<group>"; };
 		6F7BC929151BC2750013CDD7 /* objcvoronoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = objcvoronoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,8 +154,8 @@
 			children = (
 				6F7BC94F151BF67A0013CDD7 /* Voronoi.h */,
 				6F7BC950151BF67A0013CDD7 /* Voronoi.m */,
-				6F66C1821524D8D7004078A5 /* DijkstraSolver.h */,
-				6F66C1831524D8D7004078A5 /* DijkstraSolver.m */,
+				6F58B9491526349900923BA9 /* ClayPathMaker.h */,
+				6F58B94A1526349900923BA9 /* ClayPathMaker.m */,
 				6F76ACB51523D8640029416F /* VoronoiConstants.h */,
 				6F76ACB61523D8640029416F /* VoronoiConstants.m */,
 				6F7BC971151CE87C0013CDD7 /* VoronoiResult.h */,
@@ -259,7 +259,7 @@
 				6FD9DCAE15225267006E3B85 /* VoronoiController.m in Sources */,
 				6FD9DCB115225663006E3B85 /* VoronoiView.m in Sources */,
 				6F76ACB71523D8640029416F /* VoronoiConstants.m in Sources */,
-				6F66C1841524D8D7004078A5 /* DijkstraSolver.m in Sources */,
+				6F58B94B1526349900923BA9 /* ClayPathMaker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

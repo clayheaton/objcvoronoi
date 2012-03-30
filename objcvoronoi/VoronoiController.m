@@ -9,7 +9,7 @@
 #import "VoronoiView.h"
 #import "Site.h"
 #import "Cell.h"
-#import "DijkstraSolver.h"
+#import "ClayPathMaker.h"
 
 @implementation VoronoiController
 
@@ -52,10 +52,17 @@
     [voronoiview setSites:sitesFromCells];
     [voronoiview setCells:[result cells]];
     
+    NSValue *midPoint = [NSValue valueWithPoint:NSMakePoint(xMax * 0.3, yMax * 0.3)];
+    NSValue *midPoint2 = [NSValue valueWithPoint:NSMakePoint(xMax * 0.7, yMax * 0.75)];
     
-    DijkstraSolver *dij = [[DijkstraSolver alloc] initWithEdges:[result edges] 
-                                                  theStartPoint:[start pointValue] 
-                                                    theEndPoint:[end pointValue] 
+    NSMutableArray *pathNodes = [[NSMutableArray alloc] init];
+    [pathNodes addObject:start];
+    [pathNodes addObject:midPoint];
+    [pathNodes addObject:midPoint2];
+    [pathNodes addObject:end];
+    
+    ClayPathMaker *dij = [[ClayPathMaker alloc] initWithEdges:[result edges]
+                                                   nodesForPath:pathNodes
                                                       andBounds:[voronoiview bounds]];
     [voronoiview setDijkstraPathPoints:[dij pathNodes]];
     

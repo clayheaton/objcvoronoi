@@ -1,17 +1,15 @@
 //
-//  DijkstraSolver.h
+//  ClayPathMaker.h
 //  objcvoronoi
 //
-//  Created by Clay Heaton on 3/29/12.
-//  Copyright (c) 2012 The Perihelion Group. All rights reserved.
-//
+
 
 #import <Foundation/Foundation.h>
 
 @class Edge;
 @class Vertex;
 
-@interface DijkstraSolver : NSObject {
+@interface ClayPathMaker : NSObject {
     NSMutableArray *solution;
     NSMutableArray *edges;
     NSMutableArray *newEdges;
@@ -25,6 +23,11 @@
     NSMutableArray *pathNodes;
     
     NSMutableArray *points;
+    
+    int pathsToCalculate;
+    
+    BOOL workingOnFirstPath;
+    BOOL workingOnLastPath;
 }
 
 @property (copy, readwrite) NSMutableArray *edges;
@@ -37,13 +40,13 @@
 
 + (BOOL)equalWithEpsilonA:(float)a andB:(float)b;
 
-- (id)initWithEdges:(NSMutableArray *)voronoiEdges theStartPoint:(NSPoint)stPt theEndPoint:(NSPoint)endPt andBounds:(NSRect)bbox;
+- (id)initWithEdges:(NSMutableArray *)voronoiEdges nodesForPath:(NSMutableArray *)pointsArray andBounds:(NSRect)bbox;
 - (NSMutableArray *)solution;
 - (void)calculate;
 - (float)distanceFromPoint:(NSPoint)pt toVertex:(Vertex *)dv;
 - (BOOL)boundingBoxSharesEdgeWithVertex:(Vertex *)dv;
-- (void)prepareDijkstra;
-- (void)traditionalDijkstra;
+- (void)prepareData;
+- (void)setStartAndEndForPathNum:(int)pathNum;
 - (void)pathByClay;
 - (NSMutableArray *)pathNodes;
 - (Vertex *)vertexMatchingByPosition:(Vertex *)v;
