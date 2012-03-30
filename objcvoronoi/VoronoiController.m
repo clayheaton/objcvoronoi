@@ -57,7 +57,7 @@
                                                   theStartPoint:[start pointValue] 
                                                     theEndPoint:[end pointValue] 
                                                       andBounds:[voronoiview bounds]];
-    NSLog(@"Dijkstra: %@", dij);
+    [voronoiview setDijkstraPathPoints:[dij pathNodes]];
     
     [voronoiview setNeedsDisplay:YES];
 

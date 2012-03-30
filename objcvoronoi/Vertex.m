@@ -9,7 +9,7 @@
 static int identifier = 0;
 
 @implementation Vertex
-@synthesize visited, target, distance;
+@synthesize visited, target, distance, onBoundingBox, previousVertex;
 
 - (id)initWithCoord:(NSPoint)tempCoord
 {
@@ -19,8 +19,10 @@ static int identifier = 0;
         identifier++;
         [self setVisited:NO];
         [self setTarget:NO];
+        [self setOnBoundingBox:NO];
         [self setDistance:INFINITY];
         edges = [[NSMutableArray alloc] init];
+        neighborKeys = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -41,7 +43,7 @@ static int identifier = 0;
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"x: %f, y: %f", [self x], [self y]];
+    return [NSString stringWithFormat:@"uniqueID: %i, x: %f, y: %f",[self uniqueIDAsInt], [self x], [self y]];
 }
 
 - (NSString *)uniqueID
@@ -64,6 +66,12 @@ static int identifier = 0;
     float a = fabsf(x2 - x1);
     float b = fabsf(y2 - y1);
     
+    // Weight against borderbox vertices
+    if ([v onBoundingBox]) {
+        a = a*a;
+        b = b*b;
+    }
+    
     return sqrtf(a*a + b*b);
 }
 
@@ -74,29 +82,27 @@ static int identifier = 0;
     }
 }
 
-- (NSMutableArray *)neighborKeys
+- (void)calcNeighborKeys
 {
-    NSMutableArray *keys = [[NSMutableArray alloc] init];
-    
-    if ([edges count] == 0) {
-        return keys;
-    }
-    
     // We know that this vertex is associated with each edge in the edges array
     // We have to figure out which vertex it is on each edge and then store the
     // uniqueID of the other vertex in 
     
     for (Edge *e in edges) {
         Vertex *otherVertex;
-        if ([self uniqueID] == [[e va] uniqueID]) {
+        if (self == [e va]) {
             otherVertex = [e vb];
-        } else if ([self uniqueID] == [[e vb] uniqueID]) {
+        } else if (self == [e vb]) {
             otherVertex = [e va];
         }
         NSAssert(otherVertex != nil, @"Vertex: neighborKeys -- otherVertex is nil");
-        [keys addObject:[otherVertex uniqueID]];
+        [neighborKeys addObject:[otherVertex uniqueID]];
     }
-    return keys;
+}
+
+- (NSMutableArray *)neighborKeys
+{
+    return neighborKeys;
 }
 
 @end

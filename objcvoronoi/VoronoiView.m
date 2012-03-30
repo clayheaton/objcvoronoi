@@ -11,7 +11,7 @@
 #import "Vertex.h"
 
 @implementation VoronoiView
-@synthesize sites, cells;
+@synthesize sites, cells, dijkstraPathPoints;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -63,6 +63,21 @@
             [p stroke];
         }
     }
+    
+    // Draw Dijkstra path
+    [[NSColor redColor] set];
+    
+    NSBezierPath *dij = [[NSBezierPath alloc] init];
+    [dij setLineWidth:2];
+    [dij moveToPoint:[[dijkstraPathPoints objectAtIndex:0] pointValue]];
+    
+    for (int i = 1; i < [dijkstraPathPoints count]; i++) {
+        NSPoint p = [[dijkstraPathPoints objectAtIndex:i] pointValue];
+        [dij lineToPoint:p];
+    }
+    
+    [dij stroke];
+    
     
     [NSGraphicsContext restoreGraphicsState];
 }

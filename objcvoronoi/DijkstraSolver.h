@@ -23,9 +23,12 @@
     NSMutableDictionary *vertices;
     
     NSMutableArray *pathNodes;
+    
+    NSMutableArray *points;
 }
 
 @property (copy, readwrite) NSMutableArray *edges;
+@property (retain, readwrite) NSMutableArray *points;
 @property (assign, readwrite) NSPoint startPoint;
 @property (assign, readwrite) NSPoint endPoint;
 @property (retain, readwrite) Vertex *startVertex;
@@ -40,6 +43,8 @@
 - (float)distanceFromPoint:(NSPoint)pt toVertex:(Vertex *)dv;
 - (BOOL)boundingBoxSharesEdgeWithVertex:(Vertex *)dv;
 - (void)prepareDijkstra;
+- (void)traditionalDijkstra;
+- (void)pathByClay;
 - (NSMutableArray *)pathNodes;
 - (Vertex *)vertexMatchingByPosition:(Vertex *)v;
 
