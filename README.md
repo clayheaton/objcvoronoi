@@ -1,11 +1,20 @@
-Howdy.
+##obj-c voronoi library##
 
+###30 March 2012 update###
+
+I added the `ClayPathMaker` (optional) class, based loosely on Dijkstra's algorithm, that will calculate a path along the edges in the Voronoi results. The path can have nodes. It avoids using edges that are on the bounding box edges. You can see it in use in `VoronoiController.m`. Instead of sub-classing `Vertex` to support the pathfinding, I added a few methods and ivars to the Vertex class.
+
+The way it works is this: you must have at least to NSPoints to create a path. For each set of NSPoints (if you have 3, then you have two sets p1 -> p2 and p2 -> p3), calculate the straight line distance from each vertex to the destination point. Locate the vertex closest to the start point (which does not have to be on a vertex), and then find the neighbor vertex with the shortest distance to the destination. Move to that vertex and repeat until you reach the destination vertex. For the first and last NSPoints in the line (not in each segment), create vertices for them and add them to the beginning and end of the array of vertices.
+
+This does not create the shortest path between points. It meanders a little bit, but that's what I was trying to achieve. It usually doesn't cross itself. There's a small chance it will get stuck in a loop, but I added some checks for that and haven't seen it happen since then.
+
+### Voronoi Notes###
 I ported this library as part of a hobby project. C or C++ would be faster, but I wanted it in obj-c, so here it is.
 
 The library is a direct port of Raymond Hill's javascript voronoi library.
 You can find that here: http://www.raymondhill.net/voronoi/rhill-voronoi.php or on github here: https://github.com/gorhill/Javascript-Voronoi
 
-Most of his notes are preserved and you will find them in-situ in the code (without his name/date).
+Many of his notes are preserved and you will find them in-situ in the code (without his name/date).
 
 His library builds on the work of several others. The notes from his library, as of 28 March 2012, are found at the bottom of this page. I made every attempt to preserve the general structure of his code, though I made several small changes to fit the obj-c model, including method names, etc.
 
@@ -15,12 +24,9 @@ If you would like to use this library, have fun! Usage notes are in the Read Me.
 
 If you would like to help improve this library, you are free to do so: please retain all notices from this version of the library and from the libraries upon which this is built.
 
-Finally, if you use this library, please let me know! I'd love to hear about it.
+Let me know if you use the library!
 
-:)
-
-Basic Instructions
-^^^^^^^^^^^^^^^^^^
+###Basic Instructions###
 
 1. Create a bunch of NSPoints.
 
@@ -42,24 +48,19 @@ VoronoiResult
 6. In 5. 'sites' is the array that you created in step 2. The 'andBoundingBox' is an NSRect with the bounds of your view or the bounds that you wish to use to calculate your diagram.
 
 7. The following messages sent to your VoronoiResult object will provide you with what you need in order to work with your diagram:
-```
-[result cells];
-
+```[result cells]; 
 [result edges];
 ```
 8. You may need to include the classes Cell and Edge (and others) in your view or controller in order to process results.
 
 ps. In this example, VoronoiController and VoronoiView are for example purposes only. They are not needed for the library to function.
 
-
-30 March 2012 update
-
-I added the ClayPathMaker (optional) class, based on Dijkstra's algorithm, that will calculate a path along the edges in the Voronoi results. The path can have nodes. It avoids using edges that are on the bounding box edges. You can see it in use in VoronoiController.m.
-
 Clay Heaton - 28 March 2012
 clay@theperiheliongroup.com
 
+
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 Raymond Hill's original README:
 
