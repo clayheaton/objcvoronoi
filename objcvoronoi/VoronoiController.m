@@ -10,6 +10,7 @@
 #import "Site.h"
 #import "Cell.h"
 #import "ClayPathMaker.h"
+#import "ClayRelaxer.h"
 
 @implementation VoronoiController
 @synthesize xMax, yMax;
@@ -24,12 +25,14 @@
 
 - (IBAction)relaxWithLloyd:(id)sender
 {
-    NSLog(@"Relaxing diagram not yet implemented.");
+    NSMutableArray *newSites = [ClayRelaxer relaxSitesInCells:[activeResult cells]];
+    [self newVoronoiWithNewSites:newSites];
 }
 
 - (IBAction)newVoronoi:(id)sender
 {
     [randomPoints removeAllObjects];
+    activeResult = nil;
     
     int numSites = [numSitesEntry intValue];
     int margin   = [marginEntry   intValue];
@@ -49,21 +52,35 @@
     [self calculateVoronoi];
 }
 
+- (void)newVoronoiWithNewSites:(NSMutableArray *)newSites
+{
+    // Clear the old
+    [randomPoints removeAllObjects];
+    randomPoints = nil;
+    activeResult = nil;
+    
+    // Set the new points
+    randomPoints = newSites;
+    
+    // Calculate the diagram
+    [self calculateVoronoi];
+}
+
 - (void)calculateVoronoi
 {
     
     voronoi = [[Voronoi alloc] init];
-    VoronoiResult *result = [voronoi computeWithSites:randomPoints andBoundingBox:[voronoiview bounds]];
+    activeResult = [voronoi computeWithSites:randomPoints andBoundingBox:[voronoiview bounds]];
     
     NSMutableArray *sitesFromCells = [[NSMutableArray alloc] init];
     
-    for (Cell *c in [result cells]) {
+    for (Cell *c in [activeResult cells]) {
         Site *s = [c site];
         [sitesFromCells addObject:[s coordAsValue]];
     }
     
     [voronoiview setSites:sitesFromCells];
-    [voronoiview setCells:[result cells]];
+    [voronoiview setCells:[activeResult cells]];
     
     NSValue *start = [NSValue valueWithPoint:NSMakePoint(0, yMax * 0.5)];
     NSValue *end   = [NSValue valueWithPoint:NSMakePoint(xMax, yMax * 0.5)];
@@ -76,7 +93,7 @@
     [pathNodes addObject:midPoint2];
     [pathNodes addObject:end];
     
-    ClayPathMaker *dij = [[ClayPathMaker alloc] initWithEdges:[result edges]
+    ClayPathMaker *dij = [[ClayPathMaker alloc] initWithEdges:[activeResult edges]
                                                    nodesForPath:pathNodes
                                                       andBounds:[voronoiview bounds]];
     [voronoiview setDijkstraPathPoints:[dij pathNodes]];

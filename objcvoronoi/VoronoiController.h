@@ -74,6 +74,7 @@
 
 @interface VoronoiController : NSObject {
     Voronoi *voronoi;
+    VoronoiResult *activeResult;
     IBOutlet VoronoiView *voronoiview;
     IBOutlet NSTextField *numSitesEntry;
     IBOutlet NSTextField *marginEntry;
@@ -93,6 +94,7 @@
 - (void)calculateVoronoi;
 
 - (IBAction)newVoronoi:(id)sender;
+- (void)newVoronoiWithNewSites:(NSMutableArray *)newSites;
 
 @end
 
