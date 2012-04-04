@@ -82,21 +82,24 @@
     [voronoiview setSites:sitesFromCells];
     [voronoiview setCells:[activeResult cells]];
     
-    NSValue *start = [NSValue valueWithPoint:NSMakePoint(0, yMax * 0.5)];
-    NSValue *end   = [NSValue valueWithPoint:NSMakePoint(xMax, yMax * 0.5)];
-    NSValue *midPoint = [NSValue valueWithPoint:NSMakePoint(xMax * 0.33, 0)];
-    NSValue *midPoint2 = [NSValue valueWithPoint:NSMakePoint(xMax * 0.66, yMax)];
-    
-    NSMutableArray *pathNodes = [[NSMutableArray alloc] init];
-    [pathNodes addObject:start];
-    [pathNodes addObject:midPoint];
-    [pathNodes addObject:midPoint2];
-    [pathNodes addObject:end];
-    
-    ClayPathMaker *dij = [[ClayPathMaker alloc] initWithEdges:[activeResult edges]
-                                                   nodesForPath:pathNodes
-                                                      andBounds:[voronoiview bounds]];
-    [voronoiview setDijkstraPathPoints:[dij pathNodes]];
+    if ([randomPoints count] > 4) {
+        
+        NSValue *start = [NSValue valueWithPoint:NSMakePoint(0, yMax * 0.5)];
+        NSValue *end   = [NSValue valueWithPoint:NSMakePoint(xMax, yMax * 0.5)];
+        NSValue *midPoint = [NSValue valueWithPoint:NSMakePoint(xMax * 0.33, 0)];
+        NSValue *midPoint2 = [NSValue valueWithPoint:NSMakePoint(xMax * 0.66, yMax)];
+        
+        NSMutableArray *pathNodes = [[NSMutableArray alloc] init];
+        [pathNodes addObject:start];
+        [pathNodes addObject:midPoint];
+        [pathNodes addObject:midPoint2];
+        [pathNodes addObject:end];
+        
+        ClayPathMaker *dij = [[ClayPathMaker alloc] initWithEdges:[activeResult edges]
+                                                       nodesForPath:pathNodes
+                                                          andBounds:[voronoiview bounds]];
+        [voronoiview setDijkstraPathPoints:[dij pathNodes]];
+    }
     
     [voronoiview setNeedsDisplay:YES];
 
