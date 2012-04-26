@@ -211,7 +211,7 @@
 		6F7BC920151BC2750013CDD7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "The Perihelion Group";
 			};
 			buildConfigurationList = 6F7BC923151BC2750013CDD7 /* Build configuration list for PBXProject "objcvoronoi" */;

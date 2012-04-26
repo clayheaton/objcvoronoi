@@ -1052,6 +1052,8 @@
             iLeft++;
         }
     }
+    // See https://github.com/ccheaton/objcvoronoi/issues/1#issuecomment-5358427
+    [cell prepare];
 }
 
 #pragma mark Math

@@ -99,6 +99,8 @@
                                                        nodesForPath:pathNodes
                                                           andBounds:[voronoiview bounds]];
         [voronoiview setDijkstraPathPoints:[dij pathNodes]];
+    } else {
+        [voronoiview setDijkstraPathPoints:nil];
     }
     
     [voronoiview setNeedsDisplay:YES];
