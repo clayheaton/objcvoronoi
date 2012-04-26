@@ -33,24 +33,29 @@ Let me know if you use the library!
 2. Convert them to NSValues and put them in an NSArray or NSMutableArray.
 
 3. Include these classes/headers in your controller file:
+
 ```Voronoi
 VoronoiResult
 ```
 
 4. Instantiate an instance of the Voronoi class like so:
+
 ```Voronoi *voronoi - [[Voronoi alloc] init];
 ```
 
 5. Instantiate an instance of the Voronoi results class by sending the following message to your Voronoi instance:
+
 ```VoronoiResult *result = [voronoi computeWithSites:sites andBoundingBox:[voronoiview bounds]];
 ```
 
 6. In 5. 'sites' is the array that you created in step 2. The 'andBoundingBox' is an NSRect with the bounds of your view or the bounds that you wish to use to calculate your diagram.
 
 7. The following messages sent to your VoronoiResult object will provide you with what you need in order to work with your diagram:
+
 ```[result cells]; 
 [result edges];
 ```
+
 8. You may need to include the classes Cell and Edge (and others) in your view or controller in order to process results.
 
 ps. In this example, VoronoiController and VoronoiView are for example purposes only. They are not needed for the library to function.
