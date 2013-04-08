@@ -40,7 +40,7 @@ VoronoiResult
 
 * Instantiate an instance of the Voronoi class like so:
 ```
-Voronoi *voronoi - [[Voronoi alloc] init];
+Voronoi *voronoi = [[Voronoi alloc] init];
 ```
 
 
